@@ -15,23 +15,15 @@ class Orderbook {
 
     public:
 
+        // connstructor
         Orderbook();
 
-
+        // API
         void addOrder(OrderPointer);
-        void matchOrder();
-        
-
         void printOrderBook();
-
-
 
     private:
 
-        struct OrderInfo {
-            OrderPointer order_ {nullptr};
-            OrderPointers::iterator location_;
-        };
 
         // bids map is sorted in ascending order so that the highest bid is quick access
         std::map<Dollars, OrderPointers, std::greater<Dollars>> bids_; 
@@ -39,17 +31,9 @@ class Orderbook {
         // asks map is sorted in descending order so the lowest ask is quick access
         std::map<Dollars, OrderPointers, std::less<Dollars>> asks_;
 
-        // quick order lookup, critical for order modifying features
-        std::unordered_map<OrderId, OrderInfo> orders_;
-
-   
-
-
-        
-
-
-
-
-        bool canMatch();
+        // helper
+        void matchOrder();
+        void addLimitOrder(); // add in future
+        void addMarketOrder(); // add in future
 
 };
