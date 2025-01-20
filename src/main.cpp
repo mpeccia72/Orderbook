@@ -7,23 +7,21 @@ using namespace std;
 
 int main() {
 
-
-
     Orderbook orderbook;
 
     std::cout << "hello world\n";
 
     OrderId id{};
-    while(id++ < 10) {
+    while(true) {
 
-        
+    
 
         Side side;
         int side1;
         Quantity quantity;
         Dollars price;
 
-        cout << "Are you buying or selling?";
+        cout << "\n\n\nAre you buying or selling?";
         cin >> side1;
         side = static_cast<Side>(side1);
         cout << endl;
@@ -43,9 +41,6 @@ int main() {
         orderbook.printOrderBook();
 
     }
-
-
-
 
 
 

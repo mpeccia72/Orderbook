@@ -36,6 +36,20 @@ OrderAction Order::getOrderAction() const {
     return orderAction_;
 }
 
+void Order::fill(Quantity quantity) {
+    
+    if(quantity > getRemainingQuantity()) {
+        return;
+    }
+
+    remainingQuantity_-= quantity;
+}
+
+// order is complete and filled
+bool Order::isFilled() {
+    return (getRemainingQuantity() == 0);
+}
+
 Slippage Order::getSlippage() const {
     return 0;
 }

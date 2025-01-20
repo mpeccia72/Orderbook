@@ -19,6 +19,7 @@ class Orderbook {
 
 
         void addOrder(OrderPointer);
+        void matchOrder();
         
 
         void printOrderBook();

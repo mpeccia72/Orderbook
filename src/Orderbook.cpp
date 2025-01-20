@@ -5,15 +5,13 @@ Orderbook::Orderbook() {
 
 }
 
-
+// adds order to the book
 void Orderbook::addOrder(OrderPointer order) {
 
     auto orderAction = order->getOrderAction();
     auto orderType = order->getOrderType();
     auto side = order->getSide();
     
-
-
     // LIMIT ORDER
     if(orderAction == OrderAction::Limit) {
         
@@ -21,7 +19,7 @@ void Orderbook::addOrder(OrderPointer order) {
         auto price = order->getPrice();
 
         // if listing an ask
-        if(side == Side::Buy) {
+        if(side == Side::Sell) {
 
             auto it = asks_.find(price);
 
@@ -65,6 +63,57 @@ void Orderbook::addOrder(OrderPointer order) {
     // MARKET ORDER
     else {
         return;
+    }
+
+    matchOrder();
+
+}
+
+void Orderbook::matchOrder() {
+
+    
+    // matches trades
+    while(bids_.begin()->first >= asks_.begin()->first) {
+
+        // catches empty lists and returns
+        if(bids_.empty() || asks_.empty()) 
+            return;
+
+
+
+        auto& [bidPrice, bidOrderList] = *bids_.begin();
+        auto& [askPrice, askOrderList] = *asks_.begin();
+
+        auto bidOrder = bidOrderList.begin();
+        auto askOrder = askOrderList.begin();
+
+        // we want copies
+        auto bidQuantity = (*bidOrder)->getRemainingQuantity();
+        auto askQuantity = (*askOrder)->getRemainingQuantity();
+
+        // min value of both
+        int min = std::min(bidQuantity, askQuantity);
+        
+        (*bidOrder)->fill(min);
+        (*askOrder)->fill(min);
+ 
+        if(min == bidQuantity) {
+            bidOrderList.erase(bidOrder);
+
+            if(bidOrderList.empty()) {
+                bids_.erase(bids_.begin());
+            }
+
+        }
+
+        if(min == askQuantity) {
+            askOrderList.erase(askOrder);
+
+            if(askOrderList.empty()) {
+                asks_.erase(asks_.begin());
+            }
+        }
+      
     }
 
 }

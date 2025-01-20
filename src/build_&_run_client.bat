@@ -1,3 +1,3 @@
 g++ *.cpp -o "Client"
-Client.exe < input.dat
+Client.exe 
 pause

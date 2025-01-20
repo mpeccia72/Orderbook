@@ -25,7 +25,6 @@ enum class OrderAction {
 };
 
 
-
 // Order (generalizaiton)
 class Order {
 
@@ -41,6 +40,8 @@ class Order {
         Dollars getAverageCost() const;
         OrderType getOrderType() const;
         OrderAction getOrderAction() const;
+        void fill(Quantity);
+        bool isFilled();
 
         virtual Slippage getSlippage() const;
         virtual Dollars getPrice() const;
@@ -57,7 +58,6 @@ class Order {
 };
 
 
-
 // Market Order (includes slippage) (specialized order)
 class MarketOrder : public Order {
 
@@ -71,7 +71,6 @@ class MarketOrder : public Order {
         Slippage slippage_;
         
 };
-
 
 
 // Limit Order (includes price) (specialized order)
