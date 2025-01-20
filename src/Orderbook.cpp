@@ -8,56 +8,12 @@ Orderbook::Orderbook() {
 // adds order to the book
 void Orderbook::addOrder(OrderPointer order) {
 
-    // fetching basic information
+    // stores if limit or market order
     auto orderAction = order->getOrderAction();
-    auto orderType = order->getOrderType();
-    auto side = order->getSide();
     
-    // LIMIT ORDER
-    if(orderAction == OrderAction::Limit) {
-        
-        // order listing price
-        auto price = order->getPrice();
-
-        // if listing an ask
-        if(side == Side::Sell) {
-
-            auto it = asks_.find(price);
-
-            // price level already exists of current price in asks
-            if(it != asks_.end()) {
-                (it->second).push_back(order);
-            }
-
-            // price level doesn't exist yet in asks
-            else {
-                OrderPointers level;
-                level.push_back(order);
-                asks_.insert({price, level});
-            }
-
-        }
-
-        // if listing a bid
-        else {
-            
-            auto it = bids_.find(price);
-
-            // price level already exists of current price in bids
-            if(it != bids_.end()) {
-                (it->second).push_back(order);
-            }
-
-            // price level doesn't exist yet in bids
-            else {
-                OrderPointers level;
-                level.push_back(order);
-                bids_.insert({price, level});
-            }
-
-        }
-
-    }
+    // limit Order
+    if(orderAction == OrderAction::Limit)
+        addLimitOrder(order);
 
 
 
@@ -67,6 +23,56 @@ void Orderbook::addOrder(OrderPointer order) {
     }
 
     matchOrder();
+
+}
+
+// adds limit order
+void Orderbook::addLimitOrder(OrderPointer order) {
+
+    // fetching basic information
+    auto orderAction = order->getOrderAction();
+    auto orderType = order->getOrderType();
+    auto side = order->getSide();
+
+    // order listing price
+    auto price = order->getPrice();
+
+    // if listing an ask
+    if(side == Side::Sell) {
+
+        auto it = asks_.find(price);
+
+        // price level already exists of current price in asks
+        if(it != asks_.end()) {
+            (it->second).push_back(order);
+        }
+
+        // price level doesn't exist yet in asks
+        else {
+            OrderPointers level;
+            level.push_back(order);
+            asks_.insert({price, level});
+        }
+    }
+    
+    // if listing a bid
+    else {
+            
+        auto it = bids_.find(price);
+
+        // price level already exists of current price in bids
+        if(it != bids_.end()) {
+            (it->second).push_back(order);
+        }
+
+        // price level doesn't exist yet in bids
+        else {
+            OrderPointers level;
+            level.push_back(order);
+            bids_.insert({price, level});
+        }
+
+    }
 
 }
 

@@ -33,7 +33,7 @@ class Orderbook {
 
         // helper
         void matchOrder();
-        void addLimitOrder(); // add in future
+        void addLimitOrder(OrderPointer); // add in future
         void addMarketOrder(); // add in future
 
 };
