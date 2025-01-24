@@ -1,9 +1,9 @@
 
 #include "Orderbook.hpp"
 
-Orderbook::Orderbook() {
-
-}
+Orderbook::Orderbook(SecurityId securityId) : 
+    securityId_{securityId}
+    {}
 
 // adds order to the book
 void Orderbook::addOrder(OrderPointer order) {
@@ -30,7 +30,6 @@ void Orderbook::addOrder(OrderPointer order) {
 void Orderbook::addLimitOrder(OrderPointer order) {
 
     // fetching basic information
-    auto orderAction = order->getOrderAction();
     auto orderType = order->getOrderType();
     auto side = order->getSide();
 

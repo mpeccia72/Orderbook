@@ -10,6 +10,8 @@
 using OrderPointer = std::shared_ptr<Order>;
 using OrderPointers = std::list<OrderPointer>;
 
+using SecurityId = uint64_t;
+
 
 class Orderbook {
 
@@ -35,5 +37,7 @@ class Orderbook {
         void matchOrder();
         void addLimitOrder(OrderPointer); // add in future
         void addMarketOrder(); // add in future
+
+        SecurityId securityId_;
 
 };
